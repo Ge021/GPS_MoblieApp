@@ -12,6 +12,8 @@ playServicesMaps = "20.0.0"
 ramaniMaps = "0.10.0"
 maplibreVulkan = "11.11.0"
 navigationCompose = "2.9.7"
+room = "2.7.1"
+ksp = "2.3.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,9 +34,13 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 ramani-maps = { group = "org.ramani-maps", name = "ramani-maplibre", version.ref="ramaniMaps"}
 maplibre-vulkan = { group = "org.maplibre.gl", name = "android-sdk-vulkan", version.ref = "maplibreVulkan"}
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 

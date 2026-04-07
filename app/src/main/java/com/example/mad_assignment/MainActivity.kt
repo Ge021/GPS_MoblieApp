@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -50,12 +51,31 @@ class MainActivity : ComponentActivity(), LocationListener {
                 val navController = rememberNavController()
                 var currentLatLngState by remember { mutableStateOf(LatLng(0.0, 0.0)) }
                 var poisState by remember { mutableStateOf<List<Poi>>(emptyList()) }
+                var selectedPoi by remember { mutableStateOf<Poi?>(null) }
 
                 latLngViewModel.latLngLiveData.observe(this) { latLng ->
                     currentLatLngState = latLng
                 }
                 latLngViewModel.pois.observe(this) { list ->
                     poisState = list
+                }
+
+                selectedPoi?.let { poi ->
+                    AlertDialog(
+                        onDismissRequest = { selectedPoi = null },
+                        title = { Text(poi.name) },
+                        text = {
+                            Column {
+                                Text("Type: ${poi.type}")
+                                Text("Description: ${poi.description}")
+                            }
+                        },
+                        confirmButton = {
+                            Button(onClick = { selectedPoi = null }) {
+                                Text("Close")
+                            }
+                        }
+                    )
                 }
 
                 NavHost(navController = navController, startDestination = "map") {
@@ -77,8 +97,9 @@ class MainActivity : ComponentActivity(), LocationListener {
                                     poisState.forEach { poi ->
                                         Symbol(
                                             center = poi.latLng,
-                                            size = 1f
-                                            )
+                                            size = 1f,
+                                            onClick = { selectedPoi = poi }
+                                        )
                                     }
                                 }
                             }

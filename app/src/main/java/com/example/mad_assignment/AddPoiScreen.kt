@@ -50,15 +50,20 @@ fun AddPoiScreen(
 
         Button(
             onClick = {
-                if (name.isNotBlank() && type.isNotBlank() && description.isNotBlank()) {
-                    onPoiAdded(Poi(name, type, description, currentLatLng))
+                if (name.isNotBlank()) {
+                    onPoiAdded(
+                        Poi(
+                            name = name,
+                            type = type,
+                            description = description,
+                            latitude = currentLatLng.latitude,
+                            longitude = currentLatLng.longitude
+                        )
+                    )
                     onNavigateBack()
                 }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Add POI")
-        }
+            }
+        ) { Text("Add POI") }
 
         Button(
             onClick = onNavigateBack,

@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                                 ) {
                                     poisState.forEach { poi ->
                                         Symbol(
-                                            center = poi.latLng,
+                                            center = LatLng(poi.latitude, poi.longitude),
                                             size = 1f,
                                             onClick = { selectedPoi = poi }
                                         )

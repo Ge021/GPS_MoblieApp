@@ -86,6 +86,9 @@ class MainActivity : ComponentActivity(), LocationListener {
                                 Button(onClick = { navController.navigate("addPoi") }) {
                                     Text("Add Point of Interest")
                                 }
+                                Button(onClick = { latLngViewModel.loadPois() }) {
+                                    Text("Load Points of Interest")
+                                }
                                 MapLibre(
                                     modifier = Modifier.weight(1f).fillMaxWidth(),
                                     styleBuilder = styleBuilder,

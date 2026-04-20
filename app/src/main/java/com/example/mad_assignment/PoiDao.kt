@@ -7,7 +7,7 @@ import androidx.room.*
 interface PoiDao {
 
     @Query("SELECT * FROM pois")
-    fun getAllPois(): LiveData<List<Poi>>
+    suspend fun getAllPois(): List<Poi>
 
     @Insert
     fun insert(poi: Poi): Long

@@ -16,7 +16,7 @@ class LatLngViewModel(app: Application) : AndroidViewModel(app) {
 
     private val db = PoiDatabase.getDatabase(app)
 
-    val pois: LiveData<List<Poi>> = db.poiDao().getAllPois()
+    val pois = MutableLiveData<List<Poi>>(emptyList())
 
     var latLng = LatLng(50.9079, -1.4015)
         set(newValue) {
@@ -24,6 +24,15 @@ class LatLngViewModel(app: Application) : AndroidViewModel(app) {
             latLngLiveData.value = newValue
         }
     var latLngLiveData = MutableLiveData<LatLng>(LatLng(50.9079, -1.4015))
+
+    fun loadPois() {
+        viewModelScope.launch {
+            val loadedPois = withContext(Dispatchers.IO) {
+                db.poiDao().getAllPois()
+            }
+            pois.value = loadedPois
+        }
+    }
 
     fun addPoi(poi: Poi) {
         viewModelScope.launch {

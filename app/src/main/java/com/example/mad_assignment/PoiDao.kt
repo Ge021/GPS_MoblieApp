@@ -9,6 +9,7 @@ interface PoiDao {
     @Query("SELECT * FROM pois")
     suspend fun getAllPois(): List<Poi>
 
+
     @Insert
     fun insert(poi: Poi): Long
 

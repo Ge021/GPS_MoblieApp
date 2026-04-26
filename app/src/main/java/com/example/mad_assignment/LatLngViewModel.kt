@@ -39,6 +39,8 @@ class LatLngViewModel(app: Application) : AndroidViewModel(app) {
             withContext(Dispatchers.IO) {
                 db.poiDao().insert(poi)
             }
+
+            pois.value = (pois.value ?: emptyList()) + poi
         }
     }
 }

@@ -38,6 +38,7 @@ import org.ramani.compose.CameraPosition
 import kotlin.getValue
 import org.ramani.compose.MapLibre
 import org.ramani.compose.Symbol
+import androidx.compose.material3.OutlinedTextField
 
 class MainActivity : ComponentActivity(), LocationListener {
     val styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright")
@@ -52,6 +53,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 var currentLatLngState by remember { mutableStateOf(LatLng(0.0, 0.0)) }
                 var poisState by remember { mutableStateOf<List<Poi>>(emptyList()) }
                 var selectedPoi by remember { mutableStateOf<Poi?>(null) }
+                var searchType by remember { mutableStateOf("") }
 
                 latLngViewModel.latLngLiveData.observe(this) { latLng ->
                     currentLatLngState = latLng
@@ -89,6 +91,20 @@ class MainActivity : ComponentActivity(), LocationListener {
                                 Button(onClick = { latLngViewModel.loadPois() }) {
                                     Text("Load Points of Interest")
                                 }
+                                OutlinedTextField(
+                                    value = searchType,
+                                    onValueChange = { searchType = it },
+                                    label = { Text("Search by type") },
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                Button(
+                                    onClick = { latLngViewModel.searchPoisByType(searchType) },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Search")
+                                }
+
+
                                 MapLibre(
                                     modifier = Modifier.weight(1f).fillMaxWidth(),
                                     styleBuilder = styleBuilder,

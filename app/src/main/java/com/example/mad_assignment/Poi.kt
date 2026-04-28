@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "pois")
 data class Poi(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val webId: Long? = null,
     val name: String,
     val type: String,
     val description: String,

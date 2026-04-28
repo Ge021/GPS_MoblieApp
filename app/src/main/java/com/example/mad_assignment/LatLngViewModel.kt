@@ -25,6 +25,15 @@ class LatLngViewModel(app: Application) : AndroidViewModel(app) {
         }
     var latLngLiveData = MutableLiveData<LatLng>(LatLng(50.9079, -1.4015))
 
+    fun searchPoisByType(type: String) {
+        viewModelScope.launch {
+            val results = withContext(Dispatchers.IO) {
+                db.poiDao().searchByType(type)
+            }
+            pois.value = results
+        }
+    }
+
     fun loadPois() {
         viewModelScope.launch {
             val loadedPois = withContext(Dispatchers.IO) {

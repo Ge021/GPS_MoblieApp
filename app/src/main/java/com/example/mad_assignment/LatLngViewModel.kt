@@ -7,10 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mad_assignment.Poi
 import com.example.mad_assignment.PoiDatabase
+import com.example.mad_assignment.WebPoi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.maplibre.android.geometry.LatLng
+import com.github.kittinunf.fuel.gson.responseObject
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.result.Result
 
 class LatLngViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -50,6 +54,40 @@ class LatLngViewModel(app: Application) : AndroidViewModel(app) {
             }
 
             pois.value = (pois.value ?: emptyList()) + poi
+        }
+    }
+    fun loadPoisFromWeb() {
+        "http://10.0.2.2:3000/poi/all".httpGet().responseObject<List<WebPoi>> { request, response, result ->
+            when (result) {
+                is Result.Success -> {
+                    val webPois = result.get()
+
+                    viewModelScope.launch {
+                        withContext(Dispatchers.IO) {
+                            webPois.forEach { webPoi ->
+                                val existing = db.poiDao().getByWebId(webPoi.id)
+
+                                if (existing == null) {
+                                    val poi = Poi(
+                                        webId = webPoi.id,
+                                        name = webPoi.name,
+                                        type = webPoi.type,
+                                        description = webPoi.description,
+                                        latitude = webPoi.lat,
+                                        longitude = webPoi.lon
+                                    )
+                                    db.poiDao().insert(poi)
+                                }
+                            }
+                            pois.postValue(db.poiDao().getAllPois())
+                        }
+                    }
+                }
+
+                is Result.Failure -> {
+                    result.error.printStackTrace()
+                }
+            }
         }
     }
 }

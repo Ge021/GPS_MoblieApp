@@ -103,6 +103,12 @@ class MainActivity : ComponentActivity(), LocationListener {
                                 ) {
                                     Text("Search")
                                 }
+                                Button(
+                                    onClick = { latLngViewModel.loadPoisFromWeb() },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Load POIs from Web")
+                                }
 
 
                                 MapLibre(

@@ -14,6 +14,7 @@ maplibreVulkan = "11.11.0"
 navigationCompose = "2.9.7"
 room = "2.7.1"
 ksp = "2.3.6"
+fuel = "2.3.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,6 +38,9 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+fuel = { group = "com.github.kittinunf.fuel", name = "fuel", version.ref = "fuel" }
+fuel-android = { group = "com.github.kittinunf.fuel", name = "fuel-android", version.ref = "fuel" }
+fuel-gson = { group = "com.github.kittinunf.fuel", name = "fuel-gson", version.ref = "fuel" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

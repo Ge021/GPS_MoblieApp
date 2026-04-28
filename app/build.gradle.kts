@@ -53,6 +53,9 @@ dependencies {
     implementation(libs.ramani.maps) {
         exclude(group ="org.maplibre.gl", module = "android-sdk")
     }
+    implementation(libs.fuel)
+    implementation(libs.fuel.android)
+    implementation(libs.fuel.gson)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)

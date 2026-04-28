@@ -12,7 +12,8 @@ interface PoiDao {
     @Query("SELECT * FROM pois WHERE type LIKE :searchType")
     suspend fun searchByType(searchType: String): List<Poi>
 
-
+    @Query("SELECT * FROM pois WHERE webId = :webId")
+    suspend fun getByWebId(webId: Long): Poi?
 
     @Insert
     fun insert(poi: Poi): Long

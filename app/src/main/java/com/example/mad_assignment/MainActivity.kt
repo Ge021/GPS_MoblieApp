@@ -14,6 +14,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,6 +48,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -77,6 +79,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 var searchType by remember { mutableStateOf("") }
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val coroutineScope = rememberCoroutineScope()
+                var reviewText by remember { mutableStateOf("") }
 
                 latLngViewModel.latLngLiveData.observe(this) { latLng ->
                     currentLatLngState = latLng
@@ -87,16 +90,43 @@ class MainActivity : ComponentActivity(), LocationListener {
 
                 selectedPoi?.let { poi ->
                     AlertDialog(
-                        onDismissRequest = { selectedPoi = null },
+                        onDismissRequest = {
+                            selectedPoi = null
+                            reviewText = ""
+                        },
                         title = { Text(poi.name) },
                         text = {
-                            Column {
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Text("Type: ${poi.type}")
                                 Text("Description: ${poi.description}")
+
+                                // New review section
+                                OutlinedTextField(
+                                    value = reviewText,
+                                    onValueChange = { reviewText = it },
+                                    label = { Text("Write a review") },
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+
+                                Button(
+                                    onClick = {
+                                        if (reviewText.isNotBlank() && poi.webId != null) {
+                                            latLngViewModel.sendReview(poi.webId, reviewText)
+                                            reviewText = ""
+                                            selectedPoi = null
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Submit Review")
+                                }
                             }
                         },
                         confirmButton = {
-                            Button(onClick = { selectedPoi = null }) {
+                            Button(onClick = {
+                                selectedPoi = null
+                                reviewText = ""
+                            }) {
                                 Text("Close")
                             }
                         }

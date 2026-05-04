@@ -112,6 +112,24 @@ class LatLngViewModel(app: Application) : AndroidViewModel(app) {
             }
         }
     }
+    fun sendReview(poiWebId: Long, review: String) {
+        val postData = listOf(
+            "poi_id" to poiWebId,
+            "review" to review
+        )
+
+        "http://10.0.2.2:3000/review/create".httpPost(postData).response { request, response, result ->
+            when (result) {
+                is Result.Success -> {
+                    android.util.Log.d("REVIEW_SUCCESS", "Review submitted successfully with ID: ${result.get().decodeToString()}")
+                }
+                is Result.Failure -> {
+                    android.util.Log.e("REVIEW_ERROR", "Failed to submit review: ${result.error.message}")
+                    result.error.printStackTrace()
+                }
+            }
+        }
+    }
 }
 
 

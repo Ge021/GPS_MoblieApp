@@ -9,7 +9,7 @@ interface PoiDao {
     @Query("SELECT * FROM pois")
     suspend fun getAllPois(): List<Poi>
 
-    @Query("SELECT * FROM pois WHERE type LIKE :searchType")
+    @Query("SELECT * FROM pois WHERE type = :searchType")
     suspend fun searchByType(searchType: String): List<Poi>
 
     @Query("SELECT * FROM pois WHERE webId = :webId")

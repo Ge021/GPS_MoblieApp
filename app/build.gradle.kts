@@ -2,15 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace = "com.example.mad_assignment"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.Q102535666"
@@ -38,6 +35,9 @@ android {
     buildFeatures {
         compose = true
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
@@ -51,13 +51,14 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.maplibre.vulkan)
     implementation(libs.ramani.maps) {
-        exclude(group ="org.maplibre.gl", module = "android-sdk")
+        exclude(group = "org.maplibre.gl", module = "android-sdk")
     }
     implementation(libs.fuel)
     implementation(libs.fuel.android)
     implementation(libs.fuel.gson)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.core.ktx)
     ksp(libs.room.compiler)
     implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)

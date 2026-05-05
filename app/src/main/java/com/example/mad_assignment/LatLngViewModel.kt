@@ -35,6 +35,11 @@ class LatLngViewModel(app: Application) : AndroidViewModel(app) {
             val results = withContext(Dispatchers.IO) {
                 db.poiDao().searchByType(type)
             }
+            android.util.Log.d("SEARCH_DEBUG", "Searched for: '$type'")
+            android.util.Log.d("SEARCH_DEBUG", "Results count: ${results.size}")
+            results.forEach {
+                android.util.Log.d("SEARCH_DEBUG", "Result: ${it.name} - type: '${it.type}'")
+            }
             pois.value = results
         }
     }

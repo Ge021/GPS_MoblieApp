@@ -43,6 +43,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -100,7 +101,6 @@ class MainActivity : ComponentActivity(), LocationListener {
                                 Text("Type: ${poi.type}")
                                 Text("Description: ${poi.description}")
 
-                                // New review section
                                 OutlinedTextField(
                                     value = reviewText,
                                     onValueChange = { reviewText = it },
@@ -237,20 +237,22 @@ class MainActivity : ComponentActivity(), LocationListener {
                                     ) {
                                         Text("Search")
                                     }
-                                    MapLibre(
-                                        modifier = Modifier.weight(1f).fillMaxWidth(),
-                                        styleBuilder = styleBuilder,
-                                        cameraPosition = CameraPosition(
-                                            target = currentLatLngState,
-                                            zoom = 14.0
-                                        )
-                                    ) {
-                                        poisState.forEach { poi ->
-                                            Symbol(
-                                                center = LatLng(poi.latitude, poi.longitude),
-                                                size = 1f,
-                                                onClick = { selectedPoi = poi }
+                                    key(poisState) {
+                                        MapLibre(
+                                            modifier = Modifier.weight(1f).fillMaxWidth(),
+                                            styleBuilder = styleBuilder,
+                                            cameraPosition = CameraPosition(
+                                                target = currentLatLngState,
+                                                zoom = 14.0
                                             )
+                                        ) {
+                                            poisState.forEach { poi ->
+                                                Symbol(
+                                                    center = LatLng(poi.latitude, poi.longitude),
+                                                    size = 1f,
+                                                    onClick = { selectedPoi = poi }
+                                                )
+                                            }
                                         }
                                     }
                                 }
